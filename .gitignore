@@ -35,3 +35,5 @@
 **.make
 run.sh
 bin
+.cache
+compile_commands.json

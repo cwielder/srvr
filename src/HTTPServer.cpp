@@ -1,6 +1,7 @@
 #include "HTTPServer.h"
 
 #include "HTTPRequest.h"
+#include "Website.h"
 
 #include <iostream>
 #include <vector>
@@ -64,11 +65,7 @@ void HTTPServer::accept() const {
     HTTPRequest request(data);
     
     // Respond!
-    std::string body = "";
-    body += "<h1>hello, srvr!</h1>";
-    body += "<br> <strong>Your request: </strong>" + request.getMethod() + " " + request.getPath() + " " + request.getVersion();
-    body += "<p>Current time: " + std::to_string(time(nullptr)) + "</p>";
-    
+    const std::string body = Website::getInstance()->getRoute(request.getPath(), request);
     const std::string response = "HTTP/1.1 200 OK\nContent-Type: text/html\nContent-Length: " + std::to_string(body.size()) + "\n\n" + body; 
     
     send(establishedConnection, response.c_str(), response.size(), 0);
